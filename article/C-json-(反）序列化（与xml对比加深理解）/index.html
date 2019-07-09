@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          C# json （反）序列化（与xml对比加深理解） - 大仙 | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.baidu.com/article/C-json-(反）序列化（与xml对比加深理解）/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#C#" title="C#">C#</a>
+                            
+                              <a class="tag" href="/tags/#XML" title="XML">XML</a>
+                            
+                              <a class="tag" href="/tags/#JSON" title="JSON">JSON</a>
+                            
+                        </div>
+                        <h1>C# json （反）序列化（与xml对比加深理解）</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by 大仙 on
+                            2019-07-10
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">大仙</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="c-json-序列化的随笔与xml对比xml的也可以直接看这篇">C# json 序列化的随笔（与xml对比，xml的也可以直接看这篇）</h1>
+<h2 id="体会">体会</h2>
+<p>json本身的数据格式比xml简单很多所以操作没有xml繁琐，二者在做序列化和反序列的时候最关键的是类定义的注解。（反）序列化代码可以直接通用。类定义注解需要观察xml/json的数据推导出来，只要把类构造出来，下面的工作就非常简单了。</p>
+<h2 id="xml和json代码">xml和json代码</h2>
+<h3 id="测试数据">测试数据</h3>
+<ol>
+<li>xml</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">DOCUMENT</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">EMPLOYEE</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">FROMOPERTYPE</span>&gt;</span>2<span class="tag">&lt;/<span class="name">FROMOPERTYPE</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">STATUS</span>&gt;</span>1<span class="tag">&lt;/<span class="name">STATUS</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">works</span>&gt;</span> </span><br><span class="line">      <span class="tag">&lt;<span class="name">work</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">POSITION</span>&gt;</span>老板<span class="tag">&lt;/<span class="name">POSITION</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">IU_FULLNAME</span>&gt;</span>中国中材国际工程股份有限公司（长沙）<span class="tag">&lt;/<span class="name">IU_FULLNAME</span>&gt;</span>  </span><br><span class="line">      <span class="tag">&lt;/<span class="name">work</span>&gt;</span> </span><br><span class="line">      <span class="tag">&lt;<span class="name">work</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">POSITION</span>&gt;</span>员工<span class="tag">&lt;/<span class="name">POSITION</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">IU_FULLNAME</span>&gt;</span>中国中材国际工程股份有限公司（南京）<span class="tag">&lt;/<span class="name">IU_FULLNAME</span>&gt;</span>  </span><br><span class="line">      <span class="tag">&lt;/<span class="name">work</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">works</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;/<span class="name">EMPLOYEE</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">EMPLOYEE</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">FROMOPERTYPE</span>&gt;</span>2<span class="tag">&lt;/<span class="name">FROMOPERTYPE</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">STATUS</span>&gt;</span>1<span class="tag">&lt;/<span class="name">STATUS</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">works</span>&gt;</span> </span><br><span class="line">      <span class="tag">&lt;<span class="name">work</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">POSITION</span>&gt;</span>员工<span class="tag">&lt;/<span class="name">POSITION</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">IU_FULLNAME</span>&gt;</span>中国中材国际工程股份有限公司（南京）<span class="tag">&lt;/<span class="name">IU_FULLNAME</span>&gt;</span>  </span><br><span class="line">      <span class="tag">&lt;/<span class="name">work</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">works</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;/<span class="name">EMPLOYEE</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">DOCUMENT</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>JSON</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"DOCUMENT"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"FROMOPERTYPE"</span>: <span class="string">"2"</span>,</span><br><span class="line">            <span class="attr">"STATUS"</span>: <span class="string">"1"</span>,</span><br><span class="line">            <span class="attr">"DM"</span>: <span class="string">"20000570"</span>,</span><br><span class="line">            <span class="attr">"Works"</span>: [</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="attr">"ID"</span>: <span class="string">"a7763350-dcda-4dad-b419-4c1af08193ec"</span>,</span><br><span class="line">                    <span class="attr">"POSITION"</span>: <span class="string">"员工"</span>,</span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"FROMOPERTYPE"</span>: <span class="string">"2"</span>,</span><br><span class="line">            <span class="attr">"STATUS"</span>: <span class="string">"1"</span>,</span><br><span class="line">            <span class="attr">"DM"</span>: <span class="string">"20000570"</span>,</span><br><span class="line">            <span class="attr">"Works"</span>: [</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="attr">"ID"</span>: <span class="string">"87db602d-9153-4a71-a051-11224264317d"</span>,</span><br><span class="line">                    <span class="attr">"POSITION"</span>: <span class="string">"员工"</span>,</span><br><span class="line">                    <span class="attr">"IS_MAINLY"</span>: <span class="string">"1"</span>,</span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="序列化类定义">序列化类定义</h3>
+<p>三个类定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[XmlRoot(ElementName =&quot;DOCUMENT&quot;)]</span><br><span class="line">    public class XmlDocumentNode</span><br><span class="line">    &#123;</span><br><span class="line">        List&lt;Employee&gt; _employees;</span><br><span class="line">        [XmlElement(&quot;EMPLOYEE&quot;)]</span><br><span class="line">        [JsonProperty(&quot;DOCUMENT&quot;)]</span><br><span class="line">        public List&lt;Employee&gt; Employees &#123; get =&gt; _employees; set =&gt; _employees = value; &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[Serializable]</span><br><span class="line">   public class Employee</span><br><span class="line">   &#123;</span><br><span class="line"></span><br><span class="line">       private Guid  _id;</span><br><span class="line">       private string fROMOPERTYPE;</span><br><span class="line">       private string sTATUS;</span><br><span class="line">       public string FROMOPERTYPE &#123; get =&gt; fROMOPERTYPE; set =&gt; fROMOPERTYPE = value; &#125;</span><br><span class="line">       public string STATUS &#123; get =&gt; sTATUS; set =&gt; sTATUS = value; &#125;</span><br><span class="line">       private List&lt;Work&gt; _Works;</span><br><span class="line">       [XmlArray(&quot;works&quot;),XmlArrayItem(&quot;work&quot;)]</span><br><span class="line">       [JsonProperty(&quot;Works&quot;)]</span><br><span class="line">       public List&lt;Work&gt; Works &#123; get =&gt; _Works; set =&gt; _Works = value; &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[Serializable]</span><br><span class="line">    public class Work</span><br><span class="line">    &#123;</span><br><span class="line">        Guid _ID;</span><br><span class="line">        Guid _PARENTID;</span><br><span class="line">        string _POSITION;</span><br><span class="line">        string _IS_MAINLY;</span><br><span class="line">        public Guid ID &#123; get =&gt; _ID; set =&gt; _ID = value; &#125;</span><br><span class="line">        public string POSITION &#123; get =&gt; _POSITION; set =&gt; _POSITION = value; &#125;</span><br><span class="line">        public string IS_MAINLY &#123; get =&gt; _IS_MAINLY; set =&gt; _IS_MAINLY = value; &#125;</span><br><span class="line">        public Guid PARENTID &#123; get =&gt; _PARENTID; set =&gt; _PARENTID = value; &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="就着上面的代码讲两句">就着上面的代码讲两句</h2>
+<pre><code>1. *Works*是employee内部的属性，但是DOCUMENT作为*XML*树根节点，无法像下面在*Employee*当中那样的定义。  *DOCUMENT*类中是无法给出集合名称的，只能标出集合内元素的xml名称。
+<figure class="highlight plain"><figcaption><span>``` </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- 如上所显示 *employee* 是*DOCUMENT*内部的子集，同样*work*也是*Work*的子集，但两者类标注却不相同。</span><br><span class="line">2. 在json中，结构还是一样，但是只要是在同一个节点下，不需要显示子节点的名称，只需要集合名称，如示例中只需要*DOCUMENT/Works*等父节点名称，所以在对类进行标注时只需要像下面一样标出集合对应的名称即可。</span><br><span class="line">```C#</span><br><span class="line">[JsonProperty(&quot;DOCUMENT&quot;)]</span><br><span class="line">[JsonProperty(&quot;Works&quot;)]</span><br></pre></td></tr></table></figure>
+
+- 如果不指定名称则会默认使用 [集合内类型名称+s]来作为集合名进行序列化和反序列化操作。
+</code></pre>
+<h2 id="json和xml其他不同">json和xml其他不同</h2>
+<ol>
+<li>xml只能有一个根节点</li>
+<li>json却可以是一个数组，即不是一个大括号括起来</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">"DOCUMENT": [</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>此时，可以用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;T&gt; list= JsonHelper.JsonDeserialize&lt;List&lt;T&gt;&gt;(jsonString);</span><br></pre></td></tr></table></figure>
+<p>直接序列化为数组，无需像xml一样再套一层壳。</p>
+<h2 id="序列化和反序列化代码">序列化和反序列化代码</h2>
+<h3 id="xml">XML</h3>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">public class XmlHelper</span><br><span class="line">   &#123;</span><br><span class="line">       #region XML序列化</span><br><span class="line"></span><br><span class="line">       /// &lt;summary&gt;</span><br><span class="line">       /// 序列化通用对象，序列化格式由类内部定义</span><br><span class="line">       /// &lt;/summary&gt;</span><br><span class="line">       /// &lt;typeparam name=&quot;T&quot;&gt;xml的根节点类型&lt;/typeparam&gt;</span><br><span class="line">       /// &lt;param name=&quot;TNode&quot;&gt;根节点类对象&lt;/param&gt;</span><br><span class="line">       /// &lt;returns&gt;xml字符串&lt;/returns&gt;</span><br><span class="line">       public static string LoadObjectNodeXml&lt;T&gt;(T TNode) where T : class</span><br><span class="line">       &#123;</span><br><span class="line">           //序列化类对象</span><br><span class="line">           XmlSerializer xs = new XmlSerializer(typeof(T));</span><br><span class="line"></span><br><span class="line">           MemoryStream stream = new MemoryStream();</span><br><span class="line">           xs.Serialize(stream, TNode);</span><br><span class="line">           stream.Position = 0;</span><br><span class="line">           byte[] buffer = new byte[stream.Length];</span><br><span class="line">           stream.Read(buffer, 0, buffer.Length);</span><br><span class="line">           stream.Flush();</span><br><span class="line">           stream.Close();</span><br><span class="line">           return System.Text.Encoding.UTF8.GetString(buffer);</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line">       #endregion</span><br><span class="line"></span><br><span class="line">       #region XML反序列化</span><br><span class="line">       public static T DESerializerStringToEntity&lt;T&gt;(string strXML) where T : class</span><br><span class="line">       &#123;</span><br><span class="line">           try</span><br><span class="line">           &#123;</span><br><span class="line">               using (StringReader sr = new StringReader(strXML))</span><br><span class="line">               &#123;</span><br><span class="line">                   XmlSerializer serializer = new XmlSerializer(typeof(T));</span><br><span class="line">                   return serializer.Deserialize(sr) as T;</span><br><span class="line">               &#125;</span><br><span class="line"></span><br><span class="line">           &#125;</span><br><span class="line">           catch (Exception)</span><br><span class="line">           &#123;</span><br><span class="line">               throw;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       /// &lt;summary&gt;</span><br><span class="line">       /// 反序列化为通用对象，反序列化格式由对象内部定义控制</span><br><span class="line">       /// &lt;/summary&gt;</span><br><span class="line">       /// &lt;typeparam name=&quot;T&quot;&gt;要反序列化xml的根节点类型&lt;/typeparam&gt;</span><br><span class="line">       /// &lt;param name=&quot;xmlDoc&quot;&gt;反序列化的结果类&lt;/param&gt;</span><br><span class="line">       /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">       public static T DeSerializerObject&lt;T&gt;(string xmlDoc) where T:class,new()</span><br><span class="line">       &#123;</span><br><span class="line">           T doc = DESerializerStringToEntity&lt;T&gt;(xmlDoc);</span><br><span class="line">           return doc;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       #endregion</span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="json很简单几乎无需封装">Json(很简单，几乎无需封装)</h1>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class JsonHelper</span><br><span class="line">&#123;</span><br><span class="line">    //序列化</span><br><span class="line">    public static string JsonSerialize(object obj)</span><br><span class="line">    &#123;</span><br><span class="line">        return JsonConvert.SerializeObject(obj);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //反序列化</span><br><span class="line">    public static T JsonDeserialize&lt;T&gt;(string JsonString) where T : class, new()</span><br><span class="line">    &#123;</span><br><span class="line">        if (string.IsNullOrEmpty(JsonString))</span><br><span class="line">            throw new ArgumentNullException(&quot;JsonString&quot;);</span><br><span class="line">        return JsonConvert.DeserializeObject&lt;T&gt;(JsonString);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="优质讲解链接">优质讲解链接</h2>
+<h3 id="在net中序列化读写xml方法的总结"><a href="https://www.cnblogs.com/fish-li/archive/2013/05/05/3061816.html" target="_blank" rel="noopener">在.net中序列化读写xml方法的总结</a></h3>
+<h3 id="newtonsoftjson官网"><a href="https://www.newtonsoft.com/json" target="_blank" rel="noopener">Newtonsoft.json官网</a></h3>
+<h3 id="newtonsoftjson官方文档"><a href="https://www.newtonsoft.com/json/help/html/Introduction.htm" target="_blank" rel="noopener">Newtonsoft.json官方文档</a></h3>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/article/xml序列化操作简记/" data-toggle="tooltip" data-placement="top" title="xml序列化操作简记">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#c-json-序列化的随笔与xml对比xml的也可以直接看这篇"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">C# json &#x5E8F;&#x5217;&#x5316;&#x7684;&#x968F;&#x7B14;&#xFF08;&#x4E0E;xml&#x5BF9;&#x6BD4;&#xFF0C;xml&#x7684;&#x4E5F;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x770B;&#x8FD9;&#x7BC7;&#xFF09;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#体会"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x4F53;&#x4F1A;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#xml和json代码"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">xml&#x548C;json&#x4EE3;&#x7801;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#测试数据"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">&#x6D4B;&#x8BD5;&#x6570;&#x636E;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#序列化类定义"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text">&#x5E8F;&#x5217;&#x5316;&#x7C7B;&#x5B9A;&#x4E49;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#就着上面的代码讲两句"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">&#x5C31;&#x7740;&#x4E0A;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x8BB2;&#x4E24;&#x53E5;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#json和xml其他不同"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">json&#x548C;xml&#x5176;&#x4ED6;&#x4E0D;&#x540C;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#序列化和反序列化代码"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">&#x5E8F;&#x5217;&#x5316;&#x548C;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x4EE3;&#x7801;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#xml"><span class="toc-nav-number">1.5.1.</span> <span class="toc-nav-text">XML</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#json很简单几乎无需封装"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Json(&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x51E0;&#x4E4E;&#x65E0;&#x9700;&#x5C01;&#x88C5;)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#优质讲解链接"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">&#x4F18;&#x8D28;&#x8BB2;&#x89E3;&#x94FE;&#x63A5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#在net中序列化读写xml方法的总结"><span class="toc-nav-number">2.1.1.</span> <span class="toc-nav-text"><a href="https://www.cnblogs.com/fish-li/archive/2013/05/05/3061816.html" target="_blank" rel="noopener">&#x5728;.net&#x4E2D;&#x5E8F;&#x5217;&#x5316;&#x8BFB;&#x5199;xml&#x65B9;&#x6CD5;&#x7684;&#x603B;&#x7ED3;</a></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#newtonsoftjson官网"><span class="toc-nav-number">2.1.2.</span> <span class="toc-nav-text"><a href="https://www.newtonsoft.com/json" target="_blank" rel="noopener">Newtonsoft.json&#x5B98;&#x7F51;</a></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#newtonsoftjson官方文档"><span class="toc-nav-number">2.1.3.</span> <span class="toc-nav-text"><a href="https://www.newtonsoft.com/json/help/html/Introduction.htm" target="_blank" rel="noopener">Newtonsoft.json&#x5B98;&#x65B9;&#x6587;&#x6863;</a></span></a></li></ol></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#C#" title="C#">C#</a>
+                        
+                          <a class="tag" href="/tags/#XML" title="XML">XML</a>
+                        
+                          <a class="tag" href="/tags/#JSON" title="JSON">JSON</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://blog.csdn.net/A_shake" target="_blank">CSDN Blog 顾正召</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/dadaxian">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 大仙 2019 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huweihuang&repo=hexo-theme-huweihuang&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.baidu.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://www.baidu.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

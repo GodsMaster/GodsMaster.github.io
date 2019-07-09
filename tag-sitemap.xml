@@ -30,15 +30,29 @@
     </url>
 
     <url>
-        <loc>http://www.baidu.com/tags/C/</loc>
+        <loc>http://www.baidu.com/tags/xml/</loc>
         <lastmod>2019-07-07T17:18:48.127Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://www.baidu.com/tags/xml/</loc>
-        <lastmod>2019-07-07T17:18:48.127Z</lastmod>
+        <loc>http://www.baidu.com/tags/C/</loc>
+        <lastmod>2019-07-09T16:38:48.483Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://www.baidu.com/tags/XML/</loc>
+        <lastmod>2019-07-09T16:38:48.483Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://www.baidu.com/tags/JSON/</loc>
+        <lastmod>2019-07-09T16:38:48.483Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
