@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          mlInAction_Part1 - 大仙 | Blog
+          mxnet_AutoGrad - 大仙 | Blog
         
     </title>
 
-    <link rel="canonical" href="http://www.baidu.com/article/mlInAction-Part1/">
+    <link rel="canonical" href="http://www.baidu.com/article/mxnet-AutoGrad/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -90,12 +90,16 @@
                             
                               <a class="tag" href="/tags/#MachineLearning" title="MachineLearning">MachineLearning</a>
                             
+                              <a class="tag" href="/tags/#DeepLearning" title="DeepLearning">DeepLearning</a>
+                            
+                              <a class="tag" href="/tags/#MXNet" title="MXNet">MXNet</a>
+                            
                         </div>
-                        <h1>mlInAction_Part1</h1>
+                        <h1>mxnet_AutoGrad</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by 大仙 on
-                            2019-07-02
+                            2019-07-24
                         </span>
                     </div>
                 
@@ -212,76 +216,38 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="分类">分类</h1>
-<h2 id="机器学习基础">机器学习基础</h2>
-<ol>
-<li>
-<p>何谓机器学习</p>
+                <h1 id="自动求梯度导数">自动求梯度（导数）</h1>
+<p>在深度学习中，经常会计算梯度（gradient），MXNet提供autograd模块来自动求梯度。</p>
+<h2 id="简单例子">简单例子</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> mxnet <span class="keyword">import</span> autograd,nd</span><br><span class="line">x=nd.arange(<span class="number">4</span>).reshape(<span class="number">4</span>,<span class="number">1</span>)</span><br><span class="line">print(x)</span><br><span class="line"><span class="comment"># 申请存储梯度所要的内存</span></span><br><span class="line">x.attach_grad()</span><br><span class="line"><span class="comment"># 预测模式</span></span><br><span class="line">print(autograd.is_training())</span><br><span class="line"><span class="keyword">with</span> autograd.record():</span><br><span class="line">    <span class="comment"># 训练模式</span></span><br><span class="line">    print(autograd.is_training())</span><br><span class="line">    y=<span class="number">2</span>*nd.dot(x.T,x)</span><br><span class="line">y.backward()</span><br><span class="line"><span class="keyword">assert</span>(x.grad<span class="number">-4</span>*x).norm().asscalar()==<span class="number">0</span></span><br><span class="line">print(x.grad)</span><br></pre></td></tr></table></figure>
+<h2 id="训练模式和预测模式">训练模式和预测模式</h2>
+<p>使用record函数后，MXNet会记录并计算梯度。而且在默认情况下运行模式会从<strong>预测模式</strong>变为<strong>训练模式</strong></p>
 <ul>
-<li>传感器和海量数据<br>
-如何从海量数据中抽取有价值的信息是一个非常重要的课题！</li>
-<li>机器学习非常重要</li>
-</ul>
+<li>
+<p>若是想查看模式，调用is_training</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(autograd.is_training())   <span class="keyword">with</span> autograd.record():</span><br><span class="line">    print(autograd.is_training())</span><br></pre></td></tr></table></figure>
 </li>
 <li>
-<p>关键术语</p>
+<p>有些情况下，同⼀个模型在训练模式和预测模式下的⾏为并不相同。</p>
+</li>
+</ul>
+<h2 id="对python控制流求梯度">对Python控制流求梯度</h2>
+<p>使⽤MXNet的⼀个便利之处是，即使函数的计算图包含了Python的控制流（如条件和循环控制）。<br>
+比如下面的控制流：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(a)</span>:</span> </span><br><span class="line">    b = a * <span class="number">2</span> </span><br><span class="line">    <span class="keyword">while</span> b.norm().asscalar() &lt; <span class="number">1000</span>: </span><br><span class="line">        b = b * <span class="number">2</span> </span><br><span class="line">   <span class="keyword">if</span> b.sum().asscalar() &gt; <span class="number">0</span>: </span><br><span class="line">       c = b </span><br><span class="line">   <span class="keyword">else</span>: </span><br><span class="line">       c = <span class="number">100</span> * b </span><br><span class="line">   <span class="keyword">return</span> c</span><br></pre></td></tr></table></figure>
+<p>同样使用record记录计算，并调⽤backward函数求梯度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = nd.random.normal(shape=<span class="number">1</span>) </span><br><span class="line">a.attach_grad() </span><br><span class="line"><span class="keyword">with</span> autograd.record(): </span><br><span class="line">    c = f(a) c.backward()</span><br></pre></td></tr></table></figure>
+<p>由于一个函数f（a）总是可以表示成<br>
+f(a)=x*a<br>
+虽然这个f中x取决于a值。<br>
+所以x=f/a,因此可以这样验证：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a.grad == c / a</span><br></pre></td></tr></table></figure>
+<h2 id="总结">总结</h2>
 <ul>
-<li>特征（属性）</li>
-<li>训练集</li>
-<li>类别（目标变量）</li>
+<li>MXNet提供autograd模块来⾃动化求导过程。</li>
+<li>MXNet的autograd模块可以对⼀般的命令式程序进⾏求导。</li>
+<li>MXNet的运⾏模式包括训练模式和预测模式。我们可以通过autograd. is_training()来判断运⾏模式。</li>
 </ul>
-</li>
-<li>
-<p>机器学习的主要任务</p>
-<p>3.1 监督学习</p>
-<ul>
-<li>分类</li>
-<li>回归</li>
-</ul>
-<p>3.2 无监督学习</p>
-<ul>
-<li>聚类（可以减少数据特征的维度）</li>
-<li>密度估计</li>
-</ul>
-</li>
-<li>
-<p>如何选择合适的算法</p>
-<ul>
-<li>监督学习：预测目标变量的值</li>
-<li>无监督学习：非预测目标变量的值</li>
-<li>分类算法：目标变量为离散值</li>
-<li>回归算法：目标变量为连续值</li>
-<li>聚类算法：将数据划分为离散的组</li>
-<li>密度估计算法：上一步还要估计数据与每个分组的相似度</li>
-</ul>
-</li>
-<li>
-<p>开发机器学习应用程序的步骤</p>
-<ul>
-<li>收集数据</li>
-<li>准备输入数据</li>
-<li>分析输入数据</li>
-<li>训练算法</li>
-<li>测试算法</li>
-<li>使用算法</li>
-</ul>
-</li>
-<li>
-<p>python语言的优势</p>
-<ul>
-<li>可执行伪代码</li>
-<li>python比较流行</li>
-<li>python语言独具特色</li>
-<li>python语言问题——性能问题</li>
-</ul>
-</li>
-<li>
-<p>NumPy函数库基础</p>
-</li>
-<li>
-<p>本章小结</p>
-</li>
-</ol>
 
                 
 
@@ -289,13 +255,9 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/article/xml反序列化操作简记/" data-toggle="tooltip" data-placement="top" title="xml反序列化操作简记">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/article/讲座笔记/" data-toggle="tooltip" data-placement="top" title="讲座笔记">Next Post &rarr;</a>
+                            <a href="/article/mxnet-BaseOperation/" data-toggle="tooltip" data-placement="top" title="mxnet_BaseOperation">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -351,7 +313,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#分类"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x5206;&#x7C7B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#机器学习基础"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x673A;&#x5668;&#x5B66;&#x4E60;&#x57FA;&#x7840;</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#自动求梯度导数"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x81EA;&#x52A8;&#x6C42;&#x68AF;&#x5EA6;&#xFF08;&#x5BFC;&#x6570;&#xFF09;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#简单例子"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x7B80;&#x5355;&#x4F8B;&#x5B50;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#训练模式和预测模式"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x8BAD;&#x7EC3;&#x6A21;&#x5F0F;&#x548C;&#x9884;&#x6D4B;&#x6A21;&#x5F0F;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#对python控制流求梯度"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">&#x5BF9;Python&#x63A7;&#x5236;&#x6D41;&#x6C42;&#x68AF;&#x5EA6;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#总结"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">&#x603B;&#x7ED3;</span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -372,6 +334,10 @@
                     <div class="tags">
                        
                           <a class="tag" href="/tags/#MachineLearning" title="MachineLearning">MachineLearning</a>
+                        
+                          <a class="tag" href="/tags/#DeepLearning" title="DeepLearning">DeepLearning</a>
+                        
+                          <a class="tag" href="/tags/#MXNet" title="MXNet">MXNet</a>
                         
                     </div>
                 </section>
