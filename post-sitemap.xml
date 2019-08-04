@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>http://www.baidu.com/article/%E7%A7%83%E5%A4%B4%E8%AE%B01/</loc>
+        <lastmod>2019-08-04T16:44:48.977Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://www.baidu.com/article/mxnet-BaseOperation/</loc>
         <lastmod>2019-07-23T16:11:10.636Z</lastmod>
         <changefreq>weekly</changefreq>
