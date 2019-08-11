@@ -212,9 +212,20 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="第一天">第一天</h1>
-<p>今天是周六，刚来第一天，加油，加油！！！</p>
-
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<div id="hbe-security">
+  <div class="hbe-input-container">
+  <input type="password" class="hbe-form-control" id="pass" placeholder="Welcome to my blog, enter password to read." />
+    <label for="pass">Welcome to my blog, enter password to read.</label>
+    <div class="bottom-line"></div>
+  </div>
+</div>
+<div id="decryptionError" style="display: none;">Incorrect Password!</div>
+<div id="noContentError" style="display: none;">No content to display!</div>
+<div id="encrypt-blog" style="display:none">
+U2FsdGVkX19EXgnMlNSBmJ4a0nzkWNyayFVkxTxraHdhVS/Zo+ca8Jzprc3l1C5UmmkFVCZbiW3XuW1bWdwoQ2wuPCzkS/h9Pl+Ak6YCHJaYJk//Zbm1B2DnFX8XAYcevaS37MnW+ke3+IXm+19cEoK4O/8ZOD1x+xB2XYadhEaDEteOrAvd+Bkm7oU1aUUzwBSWKvyi5cWzRgyjksnUsUxIft10gGqd3brD81yInWz+LIQb0n3yTXLWoEE27537tue0z/n8mZVau2vZNpPoIujjzu4K9FBqUg7G65FQLzs0mQAezf94gfA55E49WV91BZROJSJ/2nrLaxSdiVajeqFDEVlNTNcdVHVIifhgMP1Bxfp6ravgZxOXVH1RLJkUgICrHa1UqLDQEQ2FXDu3Tw==
+</div>
+<script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
                 
 
                 <hr>
@@ -283,7 +294,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#第一天"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x7B2C;&#x4E00;&#x5929;</span></a></li></ol>
+          <ol class="nav">none</ol>
         
         </div>
       </aside>
