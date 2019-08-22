@@ -409,7 +409,22 @@
     }
 </style>
 
-
+{% elseif theme.gitalk.enable %}
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<div id="gitalk-container"></div>
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '436398b76a51b23f06b4',
+        clientSecret: '19cc5444fdaf1ebcfd33edc881f588fb781c3480',
+        id: window.location.pathname,
+        repo: 'dadaxian.github.io',
+        owner: 'dadaxian',
+        admin: 'dadaxian'
+    })
+    gitalk.render('gitalk-container')
+</script>
+{% endif %}
 
     <!-- Footer -->
     <!-- Footer -->
