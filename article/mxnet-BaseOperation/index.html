@@ -203,19 +203,21 @@
 
 
     <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
+    <!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
 
-<!-- Post Content -->
-<article>
-    <div class="container">
-        <div class="row">
-
-            <!-- Post Container -->
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                post-container">
-
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+            
                 <h1 id="ndarray">NDArray</h1>
 <h2 id="基础操作">基础操作</h2>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> mxnet <span class="keyword">import</span> nd</span><br><span class="line"></span><br><span class="line">x=nd.arange(<span class="number">12</span>)</span><br><span class="line">print(x)</span><br><span class="line"><span class="comment">#NDArray实例的形状。</span></span><br><span class="line">print(x.shape)</span><br><span class="line"><span class="comment">#元素（element）的总数</span></span><br><span class="line">print(x.size)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改变形状</span></span><br><span class="line"><span class="comment">#X=x.reshape((3,4))</span></span><br><span class="line"><span class="comment"># -1表示表示该参数是固定可预知的4=12/3，两种写法结果一样</span></span><br><span class="line">X=x.reshape((<span class="number">3</span>,<span class="number">-1</span>))</span><br><span class="line">print(X)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建⼀个各元素为0，1,给定值,随机值，形状为(2,3,4)的张量</span></span><br><span class="line">print(nd.zeros((<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>)))</span><br><span class="line">print(nd.ones((<span class="number">3</span>,<span class="number">4</span>)))</span><br><span class="line"></span><br><span class="line">Y = nd.array([[<span class="number">2</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>], [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], [<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]])</span><br><span class="line">print(Y)</span><br><span class="line">print(nd.random.normal(<span class="number">0</span>,<span class="number">1</span>,shape=(<span class="number">3</span>,<span class="number">4</span>)))</span><br></pre></td></tr></table></figure>
@@ -236,177 +238,196 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## ndarray 转numpy</span></span><br><span class="line">P = np.ones((<span class="number">2</span>, <span class="number">3</span>)) </span><br><span class="line">D = nd.array(P) </span><br><span class="line">print(D)</span><br><span class="line"><span class="comment">## numpy 转ndaarray</span></span><br><span class="line">print(D.asnumpy())</span><br></pre></td></tr></table></figure>
 <h1 id="全部代码">全部代码</h1>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> mxnet <span class="keyword">import</span> nd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">x=nd.arange(<span class="number">12</span>)</span><br><span class="line">print(x)</span><br><span class="line"><span class="comment">#NDArray实例的形状。</span></span><br><span class="line">print(x.shape)</span><br><span class="line"><span class="comment">#元素（element）的总数</span></span><br><span class="line">print(x.size)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改变形状</span></span><br><span class="line"><span class="comment">#X=x.reshape((3,4))</span></span><br><span class="line"><span class="comment"># -1表示表示该参数是固定可预知的4=12/3，两种写法结果一样</span></span><br><span class="line">X=x.reshape((<span class="number">3</span>,<span class="number">-1</span>))</span><br><span class="line">print(X)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建⼀个各元素为0，1,给定值,随机值，形状为(2,3,4)的张量</span></span><br><span class="line">print(nd.zeros((<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>)))</span><br><span class="line">print(nd.ones((<span class="number">3</span>,<span class="number">4</span>)))</span><br><span class="line"></span><br><span class="line">Y = nd.array([[<span class="number">2</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>], [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], [<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]])</span><br><span class="line">print(Y)</span><br><span class="line">print(nd.random.normal(<span class="number">0</span>,<span class="number">1</span>,shape=(<span class="number">3</span>,<span class="number">4</span>)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运算</span></span><br><span class="line"></span><br><span class="line">print(X+Y)</span><br><span class="line">print(X*Y)</span><br><span class="line">print(X/Y)</span><br><span class="line"><span class="comment"># 指数运算</span></span><br><span class="line">print(Y.exp())</span><br><span class="line"><span class="comment"># 矩阵转置做乘法</span></span><br><span class="line">print(nd.dot(X,Y.T))</span><br><span class="line"><span class="comment"># NDArray连结（concatenate）</span></span><br><span class="line">print(nd.concat(X,Y,dim=<span class="number">0</span>), nd.concat(X, Y, dim=<span class="number">1</span>))</span><br><span class="line"><span class="comment"># 判断对应位置的异同,会生成一个新的NDArray</span></span><br><span class="line">print(X==Y)</span><br><span class="line"><span class="comment"># 求所有成员的和</span></span><br><span class="line">print(X.sum())</span><br><span class="line"><span class="comment"># 单元素NDArray转标量</span></span><br><span class="line">print(X.sum().asscalar())</span><br><span class="line"><span class="comment"># L2范数(平方和开根号)</span></span><br><span class="line">print(X.norm().asscalar())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 广播机制</span></span><br><span class="line"></span><br><span class="line">A = nd.arange(<span class="number">3</span>).reshape((<span class="number">3</span>, <span class="number">1</span>))</span><br><span class="line">B = nd.arange(<span class="number">2</span>).reshape((<span class="number">1</span>, <span class="number">2</span>)) </span><br><span class="line">print(A+B)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 索引（下标）从0开始</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#截取到第索引1和索引2，即后两行[1,3]左闭右开！！！！！！</span></span><br><span class="line">print(X[<span class="number">1</span>:<span class="number">3</span>])</span><br><span class="line"><span class="comment"># 根据索引取值和赋值</span></span><br><span class="line">print(X[<span class="number">1</span>,<span class="number">2</span>])</span><br><span class="line">X[<span class="number">1</span>,<span class="number">2</span>]=<span class="number">9</span></span><br><span class="line">print(X)</span><br><span class="line"><span class="comment"># 使用索引范围赋值</span></span><br><span class="line">X[<span class="number">1</span>:<span class="number">3</span>,:]=<span class="number">12</span></span><br><span class="line">print(X)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运算的内存开销</span></span><br><span class="line">before=id(Y)</span><br><span class="line">Y=Y+X</span><br><span class="line">print(id(Y)==before)<span class="comment">#false，说明新开了内存</span></span><br><span class="line">print(before)</span><br><span class="line">print(id(Y))</span><br><span class="line"><span class="comment"># 使用：（索引）写道对应内存中，而不是新开一个</span></span><br><span class="line">Z=Y.zeros_like()</span><br><span class="line">before=id(Z)</span><br><span class="line">Z[:]=X+Y</span><br><span class="line">print(id(Z)==before)</span><br><span class="line"><span class="comment"># 进一步减少相加时所开的临时内存空间：</span></span><br><span class="line">nd.elemwise_add(X,Y,out=Z)</span><br><span class="line">print(id(Z)==before)</span><br><span class="line"><span class="comment"># 直接写入其中一个变量中以减少内存开销</span></span><br><span class="line">before=id(X)</span><br><span class="line">X+=Y</span><br><span class="line">print(id(X)==before)</span><br><span class="line"></span><br><span class="line"><span class="comment"># NDArray和NumPy相互变换</span></span><br><span class="line"><span class="comment">## ndarray 转numpy</span></span><br><span class="line">P = np.ones((<span class="number">2</span>, <span class="number">3</span>)) </span><br><span class="line">D = nd.array(P) </span><br><span class="line">print(D)</span><br><span class="line"><span class="comment">## numpy 转ndaarray</span></span><br><span class="line">print(D.asnumpy())</span><br></pre></td></tr></table></figure>
-                
-
-                <hr>
-                <!-- Pager -->
-                <ul class="pager">
-                    
-                        <li class="previous">
-                            <a href="/article/mxnet-AutoGrad/" data-toggle="tooltip" data-placement="top" title="mxnet_AutoGrad">&larr; Previous Post</a>
-                        </li>
-                    
-                    
-                        <li class="next">
-                            <a href="/article/C-json-(反）序列化（与xml对比加深理解）/" data-toggle="tooltip" data-placement="top" title="C# json （反）序列化（与xml对比加深理解）">Next Post &rarr;</a>
-                        </li>
-                    
-                </ul>
 
                 <br>
 
-                <!--打赏-->
-                
-                <!--打赏-->
-
-                <br>
-                <!--分享-->
-                
-                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
-                    <!--  css & js -->
-                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
-                
-                <!--分享-->
-                <br>                       
-                
                 <!-- require APlayer -->
                 
 
-                <!-- duoshuo Share start -->
+                <!-- 如果开启评论功能 -->
                 
-                <!-- 多说 Share end-->
+                    <hr>
 
-                <!-- 多说评论框 start -->
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+
                 
-                <!-- 多说评论框 end -->
-
-                <!-- disqus comment start -->
-                
-                <!-- disqus comment end -->
-
-                
-
             </div>
+
+          <!-- Sidebar Container -->
+<div class="
+    col-lg-3 col-lg-offset-0
+    col-md-3 col-md-offset-0
+    col-sm-12
+    col-xs-12
+    sidebar-container
+">
+    
+        <!-- Featured Tags -->
+
+<section>
+    <!-- no hr -->
+    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
             
-            <!-- Tabe of Content -->
-            <!-- Table of Contents -->
-
-  
-    <style>
-      span.toc-nav-number{
-        display: none
-      }
-    </style>
-  
-    
-      <aside id="sidebar">
-        <div id="toc" class="toc-article">
-        <strong class="toc-title">Contents</strong>
+            <a href="/tags/#日志" title="日志" rel="6">日志</a>
+            
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#ndarray"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">NDArray</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#基础操作"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x57FA;&#x7840;&#x64CD;&#x4F5C;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#运算"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x8FD0;&#x7B97;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#广播机制"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">&#x5E7F;&#x64AD;&#x673A;&#x5236;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#索引"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">&#x7D22;&#x5F15;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#运算的内存开销"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">&#x8FD0;&#x7B97;&#x7684;&#x5185;&#x5B58;&#x5F00;&#x9500;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#ndarray和numpy相互变换"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text">NDArray&#x548C;NumPy&#x76F8;&#x4E92;&#x53D8;&#x6362;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#全部代码"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x5168;&#x90E8;&#x4EE3;&#x7801;</span></a></li></ol>
+            
+            <a href="/tags/#C#" title="C#" rel="3">C#</a>
+            
         
-        </div>
-      </aside>
-    
-
-                
-            <!-- Sidebar Container -->
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                sidebar-container">
-
-                <!-- Featured Tags -->
-                
-                <section>
-                    <!-- no hr -->
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-                    <div class="tags">
-                       
-                          <a class="tag" href="/tags/#MachineLearning" title="MachineLearning">MachineLearning</a>
-                        
-                          <a class="tag" href="/tags/#DeepLearning" title="DeepLearning">DeepLearning</a>
-                        
-                          <a class="tag" href="/tags/#MXNet" title="MXNet">MXNet</a>
-                        
-                    </div>
-                </section>
-                
-
-                <!-- Friends Blog -->
-                
-                <hr>
-                <h5>FRIENDS</h5>
-                <ul class="list-inline">
-
-                    
-                        <li><a href="https://blog.csdn.net/A_shake" target="_blank">CSDN Blog 顾正召</a></li>
-                    
-                </ul>
-                
-            </div>
-        </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            <a href="/tags/#MachineLearning" title="MachineLearning" rel="3">MachineLearning</a>
+            
+        
+            
+            <a href="/tags/#DeepLearning" title="DeepLearning" rel="2">DeepLearning</a>
+            
+        
+            
+            <a href="/tags/#MXNet" title="MXNet" rel="2">MXNet</a>
+            
+        
+            
+        
+            
+            <a href="/tags/#xml" title="xml" rel="2">xml</a>
+            
+        
+            
+            <a href="/tags/#临时" title="临时" rel="2">临时</a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
     </div>
-</article>
+</section>
 
+        <hr>
+    
+        <!-- Short About -->
+<section class="visible-md visible-lg">
+    <h5><a href="/about/">ABOUT ME</a></h5>
+    <div class="short-about">
 
+        
+            <img id = "avatar_pic" src="/img/avatar/ironman.png" />
+        
 
+        
+            <p>Stay hungry,Stay foolish</p>
+        
 
+        <!-- SNS Link -->
+        <ul class="list-inline">
+            
+            
+            
 
+            
 
+            
 
+            
+                <li>
+                    <a target="_blank"  href="https://github.com/dadaxian">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
+            
+            
+            
+        </ul>
+    </div>
+</section>
 
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
-<script>
-    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
-        anchors.options = {
-          visible: 'hover',
-          placement: 'left',
-          icon: 'ℬ'
-        };
-        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
-    })
-</script>
-<style>
-    /* place left on bigger screen */
-    @media all and (min-width: 800px) {
-        .anchorjs-link{
-            position: absolute;
-            left: -0.75em;
-            font-size: 1.1em;
-            margin-top : -0.1em;
-        }
-    }
-</style>
+        <hr>
+    
+        
+  <h5>RECENT POSTS</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="/article/Spring-boot-异常处理-初级理解/">Spring boot 异常处理 初级理解</a>
+        </li>
+      
+        <li>
+          <a href="/article/电影无问西东观后感/">电影无问西东观后感</a>
+        </li>
+      
+        <li>
+          <a href="/article/秃头记1/">秃头记1</a>
+        </li>
+      
+        <li>
+          <a href="/article/mxnet-AutoGrad/">mxnet_AutoGrad</a>
+        </li>
+      
+        <li>
+          <a href="/article/mxnet-BaseOperation/">mxnet_BaseOperation</a>
+        </li>
+      
+    </ul>
+  </div>
 
-{% elseif theme.gitalk.enable %}
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<div id="gitalk-container"></div>
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-<script type="text/javascript">
-    var gitalk = new Gitalk({
-        clientID: '436398b76a51b23f06b4',
-        clientSecret: '19cc5444fdaf1ebcfd33edc881f588fb781c3480',
-        id: window.location.pathname,
-        repo: 'dadaxian.github.io',
-        owner: 'dadaxian',
-        admin: 'dadaxian'
-    })
-    gitalk.render('gitalk-container')
-</script>
-{% endif %}
+        <hr>
+    
+        <!-- Friends Blog -->
+
+<h5>FRIENDS</h5>
+<ul class="list-inline">
+
+    
+        <li><a href="https://blog.csdn.net/A_shake" target="_blank">CSDN Blog 顾正召</a></li>
+    
+</ul>
+
+        <hr>
+    
+        
+    <h5>ARCHIVES</h5>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+
+        <hr>
+    
+</div>
+
+        
+    </div>
+</div>
+
 
     <!-- Footer -->
     <!-- Footer -->

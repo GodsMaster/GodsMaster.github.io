@@ -203,19 +203,21 @@
 
 
     <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
+    <!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
 
-<!-- Post Content -->
-<article>
-    <div class="container">
-        <div class="row">
-
-            <!-- Post Container -->
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                post-container">
-
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+            
                 <h1 id="c-json-序列化的随笔与xml对比xml的也可以直接看这篇">C# json 序列化的随笔（与xml对比，xml的也可以直接看这篇）</h1>
 <h2 id="体会">体会</h2>
 <p>json本身的数据格式比xml简单很多所以操作没有xml繁琐，二者在做序列化和反序列的时候最关键的是类定义的注解。（反）序列化代码可以直接通用。类定义注解需要观察xml/json的数据推导出来，只要把类构造出来，下面的工作就非常简单了。</p>
@@ -259,177 +261,196 @@
 <h3 id="newtonsoftjson官网"><a href="https://www.newtonsoft.com/json" target="_blank" rel="noopener">Newtonsoft.json官网</a></h3>
 <h3 id="newtonsoftjson官方文档"><a href="https://www.newtonsoft.com/json/help/html/Introduction.htm" target="_blank" rel="noopener">Newtonsoft.json官方文档</a></h3>
 
-                
-
-                <hr>
-                <!-- Pager -->
-                <ul class="pager">
-                    
-                        <li class="previous">
-                            <a href="/article/mxnet-BaseOperation/" data-toggle="tooltip" data-placement="top" title="mxnet_BaseOperation">&larr; Previous Post</a>
-                        </li>
-                    
-                    
-                        <li class="next">
-                            <a href="/article/xml序列化操作简记/" data-toggle="tooltip" data-placement="top" title="xml序列化操作简记">Next Post &rarr;</a>
-                        </li>
-                    
-                </ul>
 
                 <br>
 
-                <!--打赏-->
-                
-                <!--打赏-->
-
-                <br>
-                <!--分享-->
-                
-                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
-                    <!--  css & js -->
-                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
-                
-                <!--分享-->
-                <br>                       
-                
                 <!-- require APlayer -->
                 
 
-                <!-- duoshuo Share start -->
+                <!-- 如果开启评论功能 -->
                 
-                <!-- 多说 Share end-->
+                    <hr>
 
-                <!-- 多说评论框 start -->
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+
                 
-                <!-- 多说评论框 end -->
-
-                <!-- disqus comment start -->
-                
-                <!-- disqus comment end -->
-
-                
-
             </div>
+
+          <!-- Sidebar Container -->
+<div class="
+    col-lg-3 col-lg-offset-0
+    col-md-3 col-md-offset-0
+    col-sm-12
+    col-xs-12
+    sidebar-container
+">
+    
+        <!-- Featured Tags -->
+
+<section>
+    <!-- no hr -->
+    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
             
-            <!-- Tabe of Content -->
-            <!-- Table of Contents -->
-
-  
-    <style>
-      span.toc-nav-number{
-        display: none
-      }
-    </style>
-  
-    
-      <aside id="sidebar">
-        <div id="toc" class="toc-article">
-        <strong class="toc-title">Contents</strong>
+            <a href="/tags/#日志" title="日志" rel="6">日志</a>
+            
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#c-json-序列化的随笔与xml对比xml的也可以直接看这篇"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">C# json &#x5E8F;&#x5217;&#x5316;&#x7684;&#x968F;&#x7B14;&#xFF08;&#x4E0E;xml&#x5BF9;&#x6BD4;&#xFF0C;xml&#x7684;&#x4E5F;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x770B;&#x8FD9;&#x7BC7;&#xFF09;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#体会"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x4F53;&#x4F1A;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#xml和json代码"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">xml&#x548C;json&#x4EE3;&#x7801;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#测试数据"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">&#x6D4B;&#x8BD5;&#x6570;&#x636E;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#序列化类定义"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text">&#x5E8F;&#x5217;&#x5316;&#x7C7B;&#x5B9A;&#x4E49;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#就着上面的代码讲两句"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">&#x5C31;&#x7740;&#x4E0A;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x8BB2;&#x4E24;&#x53E5;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#json和xml其他不同"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">json&#x548C;xml&#x5176;&#x4ED6;&#x4E0D;&#x540C;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#序列化和反序列化代码"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">&#x5E8F;&#x5217;&#x5316;&#x548C;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x4EE3;&#x7801;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#xml"><span class="toc-nav-number">1.5.1.</span> <span class="toc-nav-text">XML</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#json很简单几乎无需封装"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Json(&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x51E0;&#x4E4E;&#x65E0;&#x9700;&#x5C01;&#x88C5;)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#优质讲解链接"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">&#x4F18;&#x8D28;&#x8BB2;&#x89E3;&#x94FE;&#x63A5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#在net中序列化读写xml方法的总结"><span class="toc-nav-number">2.1.1.</span> <span class="toc-nav-text"><a href="https://www.cnblogs.com/fish-li/archive/2013/05/05/3061816.html" target="_blank" rel="noopener">&#x5728;.net&#x4E2D;&#x5E8F;&#x5217;&#x5316;&#x8BFB;&#x5199;xml&#x65B9;&#x6CD5;&#x7684;&#x603B;&#x7ED3;</a></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#newtonsoftjson官网"><span class="toc-nav-number">2.1.2.</span> <span class="toc-nav-text"><a href="https://www.newtonsoft.com/json" target="_blank" rel="noopener">Newtonsoft.json&#x5B98;&#x7F51;</a></span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#newtonsoftjson官方文档"><span class="toc-nav-number">2.1.3.</span> <span class="toc-nav-text"><a href="https://www.newtonsoft.com/json/help/html/Introduction.htm" target="_blank" rel="noopener">Newtonsoft.json&#x5B98;&#x65B9;&#x6587;&#x6863;</a></span></a></li></ol></li></ol></li></ol>
+            
+            <a href="/tags/#C#" title="C#" rel="3">C#</a>
+            
         
-        </div>
-      </aside>
-    
-
-                
-            <!-- Sidebar Container -->
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                sidebar-container">
-
-                <!-- Featured Tags -->
-                
-                <section>
-                    <!-- no hr -->
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-                    <div class="tags">
-                       
-                          <a class="tag" href="/tags/#C#" title="C#">C#</a>
-                        
-                          <a class="tag" href="/tags/#XML" title="XML">XML</a>
-                        
-                          <a class="tag" href="/tags/#JSON" title="JSON">JSON</a>
-                        
-                    </div>
-                </section>
-                
-
-                <!-- Friends Blog -->
-                
-                <hr>
-                <h5>FRIENDS</h5>
-                <ul class="list-inline">
-
-                    
-                        <li><a href="https://blog.csdn.net/A_shake" target="_blank">CSDN Blog 顾正召</a></li>
-                    
-                </ul>
-                
-            </div>
-        </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            <a href="/tags/#MachineLearning" title="MachineLearning" rel="3">MachineLearning</a>
+            
+        
+            
+            <a href="/tags/#DeepLearning" title="DeepLearning" rel="2">DeepLearning</a>
+            
+        
+            
+            <a href="/tags/#MXNet" title="MXNet" rel="2">MXNet</a>
+            
+        
+            
+        
+            
+            <a href="/tags/#xml" title="xml" rel="2">xml</a>
+            
+        
+            
+            <a href="/tags/#临时" title="临时" rel="2">临时</a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
     </div>
-</article>
+</section>
 
+        <hr>
+    
+        <!-- Short About -->
+<section class="visible-md visible-lg">
+    <h5><a href="/about/">ABOUT ME</a></h5>
+    <div class="short-about">
 
+        
+            <img id = "avatar_pic" src="/img/avatar/ironman.png" />
+        
 
+        
+            <p>Stay hungry,Stay foolish</p>
+        
 
+        <!-- SNS Link -->
+        <ul class="list-inline">
+            
+            
+            
 
+            
 
+            
 
+            
+                <li>
+                    <a target="_blank"  href="https://github.com/dadaxian">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
+            
+            
+            
+        </ul>
+    </div>
+</section>
 
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
-<script>
-    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
-        anchors.options = {
-          visible: 'hover',
-          placement: 'left',
-          icon: 'ℬ'
-        };
-        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
-    })
-</script>
-<style>
-    /* place left on bigger screen */
-    @media all and (min-width: 800px) {
-        .anchorjs-link{
-            position: absolute;
-            left: -0.75em;
-            font-size: 1.1em;
-            margin-top : -0.1em;
-        }
-    }
-</style>
+        <hr>
+    
+        
+  <h5>RECENT POSTS</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="/article/Spring-boot-异常处理-初级理解/">Spring boot 异常处理 初级理解</a>
+        </li>
+      
+        <li>
+          <a href="/article/电影无问西东观后感/">电影无问西东观后感</a>
+        </li>
+      
+        <li>
+          <a href="/article/秃头记1/">秃头记1</a>
+        </li>
+      
+        <li>
+          <a href="/article/mxnet-AutoGrad/">mxnet_AutoGrad</a>
+        </li>
+      
+        <li>
+          <a href="/article/mxnet-BaseOperation/">mxnet_BaseOperation</a>
+        </li>
+      
+    </ul>
+  </div>
 
-{% elseif theme.gitalk.enable %}
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<div id="gitalk-container"></div>
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-<script type="text/javascript">
-    var gitalk = new Gitalk({
-        clientID: '436398b76a51b23f06b4',
-        clientSecret: '19cc5444fdaf1ebcfd33edc881f588fb781c3480',
-        id: window.location.pathname,
-        repo: 'dadaxian.github.io',
-        owner: 'dadaxian',
-        admin: 'dadaxian'
-    })
-    gitalk.render('gitalk-container')
-</script>
-{% endif %}
+        <hr>
+    
+        <!-- Friends Blog -->
+
+<h5>FRIENDS</h5>
+<ul class="list-inline">
+
+    
+        <li><a href="https://blog.csdn.net/A_shake" target="_blank">CSDN Blog 顾正召</a></li>
+    
+</ul>
+
+        <hr>
+    
+        
+    <h5>ARCHIVES</h5>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+
+        <hr>
+    
+</div>
+
+        
+    </div>
+</div>
+
 
     <!-- Footer -->
     <!-- Footer -->
